@@ -73,9 +73,8 @@ jobs:
           name: id_rsa
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
       - name: Force Git Sync
-        uses: rlespinasse/github-slug-action@v2.x
         run: |
-          BASE_BRANCH=${{ env.GITHUB_REF_SLUG }}
+          BASE_BRANCH=${GITHUB_REF##*/}
           find web -name '.git' -type d -prune -exec rm -rf "{}" \;
           git remote add pantheon ${{ env.PANTHEON_URL }}
           rm -rf web/sites/default/files
@@ -88,5 +87,4 @@ jobs:
         with:
           pantheon-machine-token: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
       - name: Create multidev
-        uses: rlespinasse/github-slug-action@v2.x
-        run: 'terminus multidev:create $PANTHEON_SITE_NAME.dev ${{ env.GITHUB_REF_SLUG }}'
+        run: 'terminus multidev:create $PANTHEON_SITE_NAME.dev ${GITHUB_REF##*/}'

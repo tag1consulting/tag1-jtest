@@ -71,7 +71,6 @@ jobs:
           name: id_rsa
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
       - name: Force Git Sync
-        uses: rlespinasse/github-slug-action@v2.x
         run: |
           find web -name '.git' -type d -prune -exec rm -rf "{}" \;
           git remote add pantheon ${{ env.PANTHEON_URL }}
